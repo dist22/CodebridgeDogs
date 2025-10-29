@@ -37,7 +37,7 @@ The goal of this assignment was to demonstrate proficiency in **ASP.NET Core Web
    }
    ```
    ⚠ Make sure that the database is running locally (you can use SQL Server or a Docker container).
-  Replace YourStrong!Passw0rd and TokenSecret with your own secure values.
+  Replace YourStrong!Passw0rd with your own secure values.
 
 ## 🐳 Docker Setup  
 ### Create `docker-compose.yml` or you can use mine.
