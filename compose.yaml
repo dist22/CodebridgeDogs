@@ -1,0 +1,30 @@
+﻿services:
+  
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codebridge_dogs_db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - dogs_codebridge:/var/opt/mssql
+    restart: unless-stopped
+  
+  codebridgedogs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: codebridge_dogs
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__Connection=Server=codebridge_dogs_db,1433;Database=CodebridgeDogs;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true;
+    restart: unless-stopped
+      
+
+volumes:
+  dogs_codebridge:
