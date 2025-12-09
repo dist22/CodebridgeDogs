@@ -1,0 +1,31 @@
+name: Dogs CI/CD
+
+on:
+  push:
+    branches: [ "main", "dev-backend" ]
+  pull_request:
+    branches: [ "main", "dev-backend" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      
+      - name: Restore dependencies
+        run: dotnet restore CodebridgeDogs.sln
+      
+      - name: Build
+        run: dotnet build CodebridgeDogs.sln --no-restore --configuration Release
+      
+      - name: Test
+        run: dotnet test CodebridgeDogs.sln --no-build --configuration Release --verbosity normal
+      
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag codebridgedogs:latest
